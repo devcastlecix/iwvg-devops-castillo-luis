@@ -5,3 +5,5 @@
 ## Estado del código
 
 ![CI](https://github.com/devcastlecix/iwvg-devops-castillo-luis/actions/workflows/ci.yml/badge.svg)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=dev-castle_iwvg-devops-castillo-luis&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=dev-castle_iwvg-devops-castillo-luis)
