@@ -1,5 +1,9 @@
 package es.upm.miw.iwvg_devops.code;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * Conceptos: Las fracciones propias son aquellas cuyo numerador es menor que el denominador
  * <p>
@@ -55,6 +59,79 @@ public class Fraction {
 
     public double decimal() {
         return (double) numerator / denominator;
+    }
+
+    public boolean isProper() {
+        return this.numerator < this.denominator;
+    }
+
+    public boolean isImproper() {
+        return this.numerator >= this.denominator;
+    }
+
+    public boolean isEquivalent(Fraction other) {
+        double decimal = this.decimal();
+        double otherNumber = other.decimal();
+        return decimal == otherNumber;
+    }
+
+    public void add(Fraction other) {
+        int leastCommonMultiplyDenominator = this.getLeastCommonMultiplyDenominatorToOther(other);
+        int multiply = leastCommonMultiplyDenominator / this.denominator;
+        int otherMultiply = leastCommonMultiplyDenominator / other.getDenominator();
+        this.denominator = leastCommonMultiplyDenominator;
+        this.numerator = (this.numerator * multiply) + (other.getNumerator() * otherMultiply);
+        this.simplifyFraction();
+    }
+
+    public void multiply(Fraction other) {
+        this.numerator *= other.getNumerator();
+        this.denominator *= other.getDenominator();
+        this.simplifyFraction();
+    }
+
+    public void divide(Fraction other) {
+        this.numerator *= other.getDenominator();
+        this.denominator *= other.getNumerator();
+        this.simplifyFraction();
+    }
+
+    private int getLeastCommonMultiplyDenominatorToOther(Fraction other) {
+        int greatestCommonDivisor = this.getGreatestCommonDivisorDenominatorToOther(other);
+        return (this.denominator * other.getDenominator()) / greatestCommonDivisor;
+    }
+
+    private void simplifyFraction(){
+        int gcdBetweenNumeratorDenominator =
+                Fraction.getGreatestCommonDivisorBetweenTwoNumbers(this.numerator, this.denominator);
+        this.numerator /= gcdBetweenNumeratorDenominator;
+        this.denominator /= gcdBetweenNumeratorDenominator;
+    }
+
+    private int getGreatestCommonDivisorDenominatorToOther(Fraction other) {
+        return Fraction.getGreatestCommonDivisorBetweenTwoNumbers(this.denominator, other.getDenominator());
+    }
+
+    private static int getGreatestCommonDivisorBetweenTwoNumbers(int numberOne, int numberTwo) {
+        List<Integer> divisorsOne = Fraction.getAllDivisorsForNumber(numberOne);
+        List<Integer> divisorsTwo = Fraction.getAllDivisorsForNumber(numberTwo);
+        return divisorsOne.stream()
+                .filter(divisorsTwo::contains)
+                .mapToInt(divisor -> divisor)
+                .max().orElse(1);
+    }
+
+    private static List<Integer> getAllDivisorsForNumber(int number) {
+        return IntStream.rangeClosed(1, number / 2)
+                .filter(divisor -> number % divisor == 0)
+                .boxed()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        divisors -> {
+                            divisors.add(number);
+                            return divisors;
+                        }
+                ));
     }
 
     @Override
