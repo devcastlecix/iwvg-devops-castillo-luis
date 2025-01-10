@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -75,5 +74,17 @@ class UsersDatabaseTest {
 
         assertEquals(4, initials.size(), "Should have exactly 4 entries with a proper fraction");
         assertIterableEquals(List.of("F", "B", "L", "B"), initials);
+    }
+
+
+    @Test
+    void testFindUserFamilyNameBySomeImproperFraction() {
+        List<String> flawedResult = usersDatabase
+                .findUserFamilyNameBySomeImproperFraction()
+                .toList();
+
+        assertIterableEquals(List.of("Fernandez", "Blanco", "López", "Blanco"), flawedResult,
+                "Flawed method returns users who have a proper fraction instead of improper ones");
+
     }
 }
