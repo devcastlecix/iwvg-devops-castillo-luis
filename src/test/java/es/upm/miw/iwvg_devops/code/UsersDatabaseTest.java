@@ -78,12 +78,16 @@ class UsersDatabaseTest {
 
     @Test
     void testFindUserFamilyNameBySomeImproperFraction() {
-        List<String> flawedResult = usersDatabase
+        List<String> correctResult = usersDatabase
                 .findUserFamilyNameBySomeImproperFraction()
                 .toList();
-
-        assertIterableEquals(List.of("Fernandez", "Blanco", "López", "Blanco"), flawedResult,
-                "Flawed method returns users who have a proper fraction instead of improper ones");
+        assertEquals(6, correctResult.size(),
+                "Every user has at least one fraction that is 'improper' by the definition numerator >= denominator");
+        assertIterableEquals(
+                List.of("Fernandez", "Blanco", "López", "Torres", "Blanco", "Torres"),
+                correctResult,
+                "Correct method returns family names of users with an improper fraction"
+        );
     }
 
     @Test
