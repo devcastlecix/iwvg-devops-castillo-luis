@@ -76,7 +76,6 @@ class UsersDatabaseTest {
         assertIterableEquals(List.of("F", "B", "L", "B"), initials);
     }
 
-
     @Test
     void testFindUserFamilyNameBySomeImproperFraction() {
         List<String> flawedResult = usersDatabase
@@ -85,6 +84,16 @@ class UsersDatabaseTest {
 
         assertIterableEquals(List.of("Fernandez", "Blanco", "López", "Blanco"), flawedResult,
                 "Flawed method returns users who have a proper fraction instead of improper ones");
+    }
 
+    @Test
+    void testFindUserIdBySomeProperFraction() {
+        List<String> userIdsWithProper = usersDatabase.findUserIdBySomeProperFraction()
+                .toList();
+
+        assertEquals(4, userIdsWithProper.size(),
+                "There should be exactly 4 user IDs with a proper fraction");
+        assertIterableEquals(List.of("1", "2", "3", "5"), userIdsWithProper,
+                "The user IDs should match exactly [1, 2, 3, 5]");
     }
 }
