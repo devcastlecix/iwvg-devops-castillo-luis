@@ -14,7 +14,7 @@
 
     <artifactId>iwvg-devops-castillo-elera</artifactId>
     <groupId>es.upm.miw</groupId>
-    <version>4.2.0-release</version>
+    <version>4.2.1-release</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}.${project.artifactId}</name>
