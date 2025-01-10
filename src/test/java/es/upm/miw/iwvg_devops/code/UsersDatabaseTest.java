@@ -1,8 +1,14 @@
 package es.upm.miw.iwvg_devops.code;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UsersDatabaseTest {
 
@@ -60,5 +66,14 @@ class UsersDatabaseTest {
     void testFindFirstProperFractionByUserIdAndNonExisting() {
         Fraction fraction = usersDatabase.findFirstProperFractionByUserId("999");
         assertNull(fraction, "Fraction should be null for non-existing user id");
+    }
+
+    @Test
+    void testFindUserFamilyNameInitialBySomeProperFraction() {
+        List<String> initials = usersDatabase.findUserFamilyNameInitialBySomeProperFraction()
+                .toList();
+
+        assertEquals(4, initials.size(), "Should have exactly 4 entries with a proper fraction");
+        assertIterableEquals(List.of("F", "B", "L", "B"), initials);
     }
 }
